@@ -10,6 +10,10 @@ type ServerStatus struct {
 	Ping int
 }
 
+type Command struct {
+	Method int8
+}
+
 func ReadData(conn net.Conn, server *ServerStatus) {
 
 	data := make([]byte, 4096)
@@ -21,7 +25,6 @@ func ReadData(conn net.Conn, server *ServerStatus) {
 			server.Ping = 1
 			return
 		}
-
 		log.Println("Server send : " + string(data[:n]))
 		time.Sleep(3 * time.Second)
 	}

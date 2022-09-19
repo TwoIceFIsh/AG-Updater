@@ -2,7 +2,6 @@ package main
 
 import (
 	"AG-Updater/io"
-	"fmt"
 	"github.com/kardianos/service"
 	"log"
 	"net"
@@ -26,13 +25,15 @@ func (goWindowsService *GoWindowsService) run() {
 		} else {
 
 			// 통신이 수립 되었을때 하고 싶은 일
-			fmt.Println("Connected")
+			log.Println("서버 연결 성공")
+
+			///////////////////////////////////
 			go io.ReadData(conn, &ServerStatus)
 			go io.WriteData(conn)
+			///////////////////////////////////
 
 			// goroutine 종료 방지 무한 루프
 			for {
-				fmt.Println("종료 방지 무한 루프", ServerStatus.Ping)
 				if ServerStatus.Ping == 1 {
 					break
 				}
@@ -41,7 +42,6 @@ func (goWindowsService *GoWindowsService) run() {
 		}
 		// 통신 재게 무한 루프
 		ServerStatus.Ping = 0
-		fmt.Println("통신 탐지", ServerStatus.Ping)
 		time.Sleep(15 * time.Second)
 	}
 }
