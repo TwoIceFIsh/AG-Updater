@@ -7,6 +7,7 @@
     <list default="true" id="e07a8762-47cd-4346-baef-1377bef7ed19" name="변경" comment="A">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/AG-Updater.go" beforeDir="false" afterPath="$PROJECT_DIR$/AG-Updater.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/io/serverIo.go" beforeDir="false" afterPath="$PROJECT_DIR$/io/serverIo.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,7 +85,7 @@
       <updated>1663291751878</updated>
       <workItem from="1663291753961" duration="2048000" />
       <workItem from="1663550999293" duration="7187000" />
-      <workItem from="1663567679740" duration="331000" />
+      <workItem from="1663567679740" duration="2267000" />
     </task>
     <task id="LOCAL-00001" summary="a">
       <created>1663293930087</created>
@@ -107,7 +108,14 @@
       <option name="project" value="LOCAL" />
       <updated>1663563218416</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="A">
+      <created>1663568035607</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1663568035607</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

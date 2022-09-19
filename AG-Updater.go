@@ -1,6 +1,8 @@
 package main
 
 import (
+	"AG-Updater/io"
+	"fmt"
 	"github.com/kardianos/service"
 	"log"
 	"net"
@@ -15,39 +17,32 @@ func (goWindowsService *GoWindowsService) Start(windowsService service.Service) 
 }
 
 func (goWindowsService *GoWindowsService) run() {
-
+	var ServerStatus io.ServerStatus
 	for {
 		conn, err := net.Dial("tcp", ":8000")
 		if nil != err {
 			log.Println(err)
+			ServerStatus.Ping = 1
 		} else {
-			go func() {
-				data := make([]byte, 4096)
 
-				for {
-					n, err := conn.Read(data)
-					if err != nil {
-						log.Println(err)
-						return
-					}
+			// 통신이 수립 되었을때 하고 싶은 일
+			fmt.Println("Connected")
+			go io.ReadData(conn, &ServerStatus)
+			go io.WriteData(conn)
 
-					log.Println("Server send : " + string(data[:n]))
-					time.Sleep(time.Duration(3) * time.Second)
-				}
-			}()
-
-			go func() {
-				for {
-					_, _ = conn.Write([]byte("PING"))
-					time.Sleep(time.Duration(3) * time.Second)
-				}
-			}()
-
+			// goroutine 종료 방지 무한 루프
 			for {
-
-				time.Sleep(time.Duration(3) * time.Second)
+				fmt.Println("종료 방지 무한 루프", ServerStatus.Ping)
+				if ServerStatus.Ping == 1 {
+					break
+				}
+				time.Sleep(3 * time.Second)
 			}
 		}
+		// 통신 재게 무한 루프
+		ServerStatus.Ping = 0
+		fmt.Println("통신 탐지", ServerStatus.Ping)
+		time.Sleep(15 * time.Second)
 	}
 }
 

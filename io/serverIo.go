@@ -1,31 +1,38 @@
 package io
 
 import (
-	"io"
 	"log"
 	"net"
+	"time"
 )
 
-func ConnHandler(conn net.Conn) {
-	recvBuf := make([]byte, 4096)
+type ServerStatus struct {
+	Ping int
+}
+
+func ReadData(conn net.Conn, server *ServerStatus) {
+
+	data := make([]byte, 4096)
+
 	for {
-		n, err := conn.Read(recvBuf)
-		if nil != err {
-			if io.EOF == err {
-				log.Println(err)
-				return
-			}
+		n, err := conn.Read(data)
+		if err != nil {
 			log.Println(err)
+			server.Ping = 1
 			return
 		}
-		if 0 < n {
-			data := recvBuf[:n]
-			log.Println(string(data))
-			_, err = conn.Write(data[:n])
-			if err != nil {
-				log.Println(err)
-				return
-			}
-		}
+
+		log.Println("Server send : " + string(data[:n]))
+		time.Sleep(3 * time.Second)
 	}
+
+}
+
+func WriteData(conn net.Conn) {
+
+	for {
+		_, _ = conn.Write([]byte("PING"))
+		time.Sleep(3 * time.Second)
+	}
+
 }
