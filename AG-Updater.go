@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"github.com/kardianos/service"
 	"log"
 	"net"
@@ -16,31 +15,39 @@ func (goWindowsService *GoWindowsService) Start(windowsService service.Service) 
 }
 
 func (goWindowsService *GoWindowsService) run() {
-	conn, err := net.Dial("tcp", ":8000")
-	if nil != err {
-		log.Println(err)
-	}
-
-	go func() {
-		data := make([]byte, 4096)
-
-		for {
-			n, err := conn.Read(data)
-			if err != nil {
-				log.Println(err)
-				return
-			}
-
-			log.Println("Server send : " + string(data[:n]))
-			time.Sleep(time.Duration(3) * time.Second)
-		}
-	}()
 
 	for {
-		var s string
-		fmt.Scanln(&s)
-		conn.Write([]byte(s))
-		time.Sleep(time.Duration(3) * time.Second)
+		conn, err := net.Dial("tcp", ":8000")
+		if nil != err {
+			log.Println(err)
+		} else {
+			go func() {
+				data := make([]byte, 4096)
+
+				for {
+					n, err := conn.Read(data)
+					if err != nil {
+						log.Println(err)
+						return
+					}
+
+					log.Println("Server send : " + string(data[:n]))
+					time.Sleep(time.Duration(3) * time.Second)
+				}
+			}()
+
+			go func() {
+				for {
+					_, _ = conn.Write([]byte("PING"))
+					time.Sleep(time.Duration(3) * time.Second)
+				}
+			}()
+
+			for {
+
+				time.Sleep(time.Duration(3) * time.Second)
+			}
+		}
 	}
 }
 
